@@ -1,0 +1,5 @@
+python3からＣプログラムを呼び出すテスト。
+makeでhello.soを作りpython3で"import hello"をする。
+
+hello.add(int,int), hello.out(string,string)でそれぞれhello.c内のadd関数とout関数を呼び出せる。
+仕組みはよくわからず。
