@@ -3,7 +3,7 @@
 #define BUFSIZE 256
 
 extern int add(int, int);
-extern void out(const char*, const char*, char * const, const size_t);
+extern void out(const char*, const char*, char* const, const size_t);
 
 static PyObject* hello_add(PyObject* self, PyObject* args){
 	int x, y, g;
@@ -20,7 +20,7 @@ static PyObject* hello_out(PyObject* self, PyObject* args, PyObject* kw){
 
 	const char* adrs = NULL;
 	const char* name = NULL;
-	static char* argnames[] = {"adrs", "name", NULL};
+	static char* argnames[] = {(char*)"adrs", (char*)"name", NULL};
 	char str_out[BUFSIZE];
 
 	if(!PyArg_ParseTupleAndKeywords(args, kw, "|ss", argnames, &adrs, &name)){
