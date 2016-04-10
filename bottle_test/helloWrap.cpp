@@ -46,9 +46,13 @@ static struct PyModuleDef hellomodule = {
 	hellomethods
 };
 
+#ifdef __cplusplus
 extern "C" {
+#endif
 	PyMODINIT_FUNC PyInit_hello(void)
 	{
 		return PyModule_Create(&hellomodule);
 	}
+#ifdef __cplusplus
 }
+#endif
