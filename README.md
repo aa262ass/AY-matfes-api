@@ -1,4 +1,5 @@
-bootle.pyで画像ファイルをアップロードする
-
-test.pyを起動し localhost:8080/upload を開く
-画像を選んでアップロードするとtest.pyのディレクトリにDocumentsファイルが作成され、内部にアップロードした画像ファイルが保存される
+4/19
+python2.x環境でboost.pythonを使ってc++をpython上で動かしました
+c++で定義した関数をpythonのモジュールにする感じです
+コンパイル後の生成物test.soをpythonでimportするとhello関数が使えます
+これぐらいしか進捗産めなかった(´・ω・｀)
