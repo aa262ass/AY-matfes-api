@@ -1,0 +1,5 @@
+responseのbodyにプレーンテキストで計算結果を与えればとりあえず動くかな
+bottletest1.py: localhost:8080/resultにアクセスすると適当な数が与えられる
+bottletest2.py: ほとんど~1.pyと同じ。postメソッドでbitmapを要求しているところだけ違う
+
+とりあえずandroid側でresponseのbody部分の数字を読み取れるか試してもらったほうがいいかも
