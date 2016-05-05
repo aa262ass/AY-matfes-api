@@ -12,7 +12,7 @@ int main()
 
 	while(fscanf(fp, "%[^,]", name) != EOF) {
 		printf("%s", name);
-		for(int i = 0; i < FEATS_DIM; i++) {
+		for(int i = 0; i < Feats_dim; i++) {
 			fscanf(fp, ",%lf", &val);
 			printf(" %f", val);
 		}

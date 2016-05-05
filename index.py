@@ -1,4 +1,4 @@
-from bottle import route, run, template, request, static_file
+from bottle import route, run, template, request, static_file, HTTPResponse
 import webbrowser as web
 import os
 import subprocess
@@ -6,36 +6,49 @@ import csv
 from math import sqrt
 
 csvPath = 'database/database.csv'
-dataset = {}
+featsDim = 99120
+dataSize = 500
+dataset = []
+dataname = []
 
 def init():
   global dataset
+  global dataname
   f = open(csvPath, 'r')
   reader = csv.reader(f)
-  for row in reader:
-    tmp = row
-    dataset[tmp[0]] = map(float, tmp[1:])
+
+  for myline in reader:
+    mydata = map(float, myline[1:])
+    norm = calcNorm(mydata)
+    for i in range(featsDim):
+      mydata[i] /= norm
+    dataset.append(mydata)
+    dataname.append(myline[0])
+
+
+def calcNorm(mydata):
+  s = 0.0
+  for i in range(featsDim):
+    s += mydata[i]**2
+  return sqrt(s)
 
 
 def calcSim(data1, data2):
-  sum1 = sum2 = 0.0
   rtn = 0.0
-  for val1, val2 in zip(data1, data2):
-    sum1 += val1**2
-    sum2 += val2**2
-    rtn += val1 * val2
-  return rtn / (sqrt(sum1)*sqrt(sum2))
+  for i in range(featsDim):
+    rtn += data1[i] * data2[i]
+  return rtn
+
+
+def cpp_exec(filename):
+  cmd = ["./temp", "./image/"+filename]
+  result = subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
+  return map(float, result.decode('utf-8').split(','))
 
 
 @route('/title')
 def title():
   return template('may')
-
-
-def cpp_exec(filename):
-  cmd = ["./temp", "./image/" + filename]
-  result = subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
-  return map(float, result.decode('utf-8').split(','))
 
 
 @route('/result', method='POST')
@@ -51,17 +64,22 @@ def result():
 
   upload.save("./image", overwrite=True)
   feats = cpp_exec(upload.filename)
+  norm = calcNorm(feats)
+  for i in range(featsDim):
+    feats[i] /= norm
 
-  global dataset
-  maxSim = 0.0
+  maxSim = -1.0
   maxName = ''
-  for mykey, mydata in dataset.items():
-    tmp = calcSim(feats, mydata)
-    if tmp > maxSim:
-      maxSim = tmp
-      maxName = mykey
+  for i in range(dataSize):
+    sim = calcSim(feats, dataset[i])
+    if sim > maxSim:
+      maxSim = sim
+      maxName = dataname[i]
 
-  return maxName + '/' + str(maxSim)
+  body = maxName + '/' + str(maxSim)
+  r = HTTPResponse(status=200, body=body)
+  r.set_header('Content-Type', 'text/plain')
+  return r
 
 
   #os.remove("./image/pic.png")
