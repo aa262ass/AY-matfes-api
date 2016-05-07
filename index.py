@@ -8,7 +8,7 @@ featsDim = 99120
 
 '''
 allData,
-man, female
+male, female
 mElse, mActor, mArtist, mShowman,
 fElse, fActor, fArtist, fShowman
 '''
