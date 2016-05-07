@@ -6,6 +6,15 @@ import os, subprocess
 
 dataPath = 'database/database3.npy'
 featsDim = 99120
+
+'''
+データは
+allData,
+mElse, mActor, mArtist, mShowman,
+fElse, fActor, fArtist, fShowman
+の順
+'''
+
 dataSet = np.load(dataPath)
 dataID = [
   range(1001,1089)+range(1101,1153)+range(1201,1242)+range(1301,1369) \
